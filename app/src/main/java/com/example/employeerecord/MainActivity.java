@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private AdapterRecord adapterRecord;
     private DbHelper dbHelper;
     private ActionBar actionBar;
+    private ArrayList<ModelRecord> recordList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         recordRv = findViewById(R.id.recordRv);
         recordRv.setHasFixedSize(true);
 
+        recordList = new ArrayList<>();
+        recordList.addAll(dbHelper.getAllRecords(Constants.C_ADDED_TIMESTAMP + " DESC"));
+
         loadRecord();
 
     }
@@ -60,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRecord() {
-        adapterRecord = new AdapterRecord(this,dbHelper.getAllRecords(Constants.C_ADDED_TIMESTAMP + " DESC"));
+        adapterRecord = new AdapterRecord(this,recordList);
         recordRv.setAdapter(adapterRecord);
-//        actionBar.setSubtitle(dbHelper.getRecordCount());
+        actionBar.setSubtitle(""+dbHelper.getRecordCount());
     }
 
     @Override
@@ -74,26 +80,32 @@ public class MainActivity extends AppCompatActivity {
         //searchView
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //search when search button on keyboard clicked
-                searchRecord(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //search as type
-                searchRecord(newText);
-                return false;
+
+                newText = newText.toLowerCase();
+                ArrayList<ModelRecord> newList = new ArrayList<>();
+
+                for (ModelRecord modelRecord: recordList){
+                    String name = modelRecord.getName().toLowerCase();
+                    if (name.contains(newText)){
+                        newList.add(modelRecord);
+                    }
+
+                }
+                adapterRecord.setFilter(newList);
+                return true;
             }
         });
 
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void searchRecord(String query) {
+        return true;
     }
 
     @Override

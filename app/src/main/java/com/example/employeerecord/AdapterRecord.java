@@ -139,4 +139,10 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
 
         }
     }
+
+    public void setFilter(ArrayList<ModelRecord> newList){
+        recordList = new ArrayList<>();
+        recordList.addAll(newList);
+        notifyDataSetChanged();
+    }
 }

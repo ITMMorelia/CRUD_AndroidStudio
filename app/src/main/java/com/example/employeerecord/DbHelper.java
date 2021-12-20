@@ -169,11 +169,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //get number of record
     public int getRecordCount(){
-        String countQuery = " SELECT * FROM "+Constants.TABLE_NAME;
+        String countQuery = "SELECT * FROM "+ Constants.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery,null);
         int count = cursor.getCount();
-
         cursor.close();
         return count;
     }
