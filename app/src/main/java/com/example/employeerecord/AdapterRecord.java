@@ -1,6 +1,7 @@
 package com.example.employeerecord;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -51,7 +53,12 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
         holder.nameTv.setText(name);
         holder.phoneTv.setText(phone);
         holder.emailTv.setText(email);
-        holder.profileIv.setImageURI(Uri.parse(profileImage));
+
+        if(profileImage.isEmpty()){
+            holder.profileIv.setImageResource(R.drawable.ic_baseline_person_24);
+        }else {
+            holder.profileIv.setImageURI(Uri.parse(profileImage));
+        }
 
         //handle item click
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +75,44 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
         holder.moreIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showMoreDialog(id,name,phone,email,dob,bio,profileImage,addedTime,updatedTime);
             }
         });
 
+    }
+
+    private void showMoreDialog(String id, String name, String phone, String email, String dob,  String bio,String profileImage, String addedTime, String updatedTime) {
+        //option to display in dialog
+        String[] option = {"Edit","Delete"};
+        //dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Select An Action");
+        //add item to dialog
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //handle item click
+                if (which == 0){
+                    //edit is clicked
+                    Intent intent = new Intent(context,AddUpdateActivity.class);
+                    intent.putExtra("ID",id);
+                    intent.putExtra("NAME",name);
+                    intent.putExtra("PHONE",phone);
+                    intent.putExtra("EMAIL",email);
+                    intent.putExtra("DOB",dob);
+                    intent.putExtra("BIO",bio);
+                    intent.putExtra("ADDEDTIME",addedTime);
+                    intent.putExtra("UPDATEDTIME",updatedTime);
+                    intent.putExtra("IMAGE",profileImage);
+                    intent.putExtra("isEditMode",true);
+                    context.startActivity(intent);
+                }else if (which == 1) {
+                    //delete is clicked
+                }
+
+            }
+        });
+        builder.create().show();
     }
 
     @Override

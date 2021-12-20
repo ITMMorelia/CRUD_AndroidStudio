@@ -40,7 +40,7 @@ public class AddUpdateActivity extends AppCompatActivity {
     private EditText nameEt, phoneEt, emailEt, dobEt, bioEt;
     private FloatingActionButton fab;
 
-    private String name,phone,email,dob,bio;
+    private String id,name,phone,email,dob,bio,addedTime,updatedTime,profileImage;
 
     //db helper
     private DbHelper dbHelper;
@@ -62,17 +62,23 @@ public class AddUpdateActivity extends AppCompatActivity {
     //action bar
     ActionBar actionBar;
 
+    private Boolean isEditMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_update);
 
+        //init db helper
+        dbHelper = new DbHelper(this);
+
+        //init permission array
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         //init
         actionBar = getSupportActionBar();
 
-        //title
-        actionBar.setTitle("Add");
         //back button
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
@@ -86,12 +92,39 @@ public class AddUpdateActivity extends AppCompatActivity {
         bioEt = findViewById(R.id.BioEt);
         fab = findViewById(R.id.fab);
 
-        //init db helper
-        dbHelper = new DbHelper(this);
+        //get data from intent
+        Intent intent = getIntent();
+        isEditMode = intent.getBooleanExtra("isEditMode",false);
+        if (isEditMode){
+            //upgrade data
+            actionBar.setTitle("Update Dta");
+            id = intent.getStringExtra("ID");
+            name = intent.getStringExtra("NAME");
+            email= intent.getStringExtra("EMAIL");
+            phone = intent.getStringExtra("PHONE");
+            bio = intent.getStringExtra("BIO");
+            dob= intent.getStringExtra("DOB");
+            addedTime= intent.getStringExtra("ADDEDTIME");
+            updatedTime = intent.getStringExtra("UPDATEDTIME");
+            profileImage = intent.getStringExtra("IMAGE");
+            imageUri = Uri.parse(profileImage);
 
-        //init permission array
-        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            //set data to view
+            nameEt.setText(name);
+            phoneEt.setText(phone);
+            emailEt.setText(email);
+            bioEt.setText(bio);
+            dobEt.setText(dob);
+
+
+
+            profileIv.setImageURI(imageUri);
+
+
+        }else {
+            //add data
+            actionBar.setTitle("Add data");
+        }
 
 
         // image picker listener
@@ -123,20 +156,39 @@ public class AddUpdateActivity extends AppCompatActivity {
         dob = dobEt.getText().toString();
         bio = bioEt.getText().toString();
 
-        //save to database
-
         String timestamp = ""+System.currentTimeMillis();
-        long id = dbHelper.insertRecord(
-                ""+name,
-                ""+imageUri,
-                ""+bio,
-                ""+phone,
-                ""+email,
-                ""+timestamp,
-                ""+timestamp
-        );
+        if (isEditMode){
+            //update data
+            dbHelper.updateRecord(
+                    ""+id,
+                    ""+name,
+                    ""+imageUri,
+                    ""+bio,
+                    ""+dob,
+                    ""+phone,
+                    ""+email,
+                    ""+addedTime,
+                    ""+timestamp
+            );
+            Toast.makeText(getApplicationContext(), "Updated...", Toast.LENGTH_SHORT).show();
+        }else {
 
-        Toast.makeText(getApplicationContext(), "Record Added against ID: "+id, Toast.LENGTH_SHORT).show();
+            //save to database
+
+            long id = dbHelper.insertRecord(
+                    ""+name,
+                    ""+imageUri,
+                    ""+bio,
+                    ""+dob,
+                    ""+phone,
+                    ""+email,
+                    ""+timestamp,
+                    ""+timestamp
+            );
+
+            Toast.makeText(getApplicationContext(), "Record Added against ID: "+id, Toast.LENGTH_SHORT).show();
+        }
+
 
 
     }

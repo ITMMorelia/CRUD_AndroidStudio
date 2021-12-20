@@ -37,9 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     // Insert function to save data on database
-    public long insertRecord(String name,String image, String bio, String phone, String email, String addedTime, String updatedTime){
-
-
+    public long insertRecord(String name,String image, String bio,String dob, String phone, String email, String addedTime, String updatedTime){
 
         //get writable database to write on database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -50,6 +48,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Constants.C_NAME, name);
         values.put(Constants.C_IMAGE, image);
         values.put(Constants.C_BIO,bio);
+        values.put(Constants.C_DOB,dob);
         values.put(Constants.C_PHONE,phone);
         values.put(Constants.C_EMAIL,email);
         values.put(Constants.C_ADDED_TIMESTAMP,addedTime);
@@ -63,6 +62,36 @@ public class DbHelper extends SQLiteOpenHelper {
 
         //return id of inserted row
         return id;
+
+    }
+
+
+
+    // Upgrade function to save data on database
+    public void updateRecord(String id,String name,String image, String bio,String dob, String phone, String email, String addedTime, String updatedTime){
+
+        //get writable database to write on database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        // id will auto increment as we set AUTOINCREMENT in query
+        ContentValues values = new ContentValues();
+
+        //insert data
+        values.put(Constants.C_NAME, name);
+        values.put(Constants.C_IMAGE, image);
+        values.put(Constants.C_BIO,bio);
+        values.put(Constants.C_DOB,dob);
+        values.put(Constants.C_PHONE,phone);
+        values.put(Constants.C_EMAIL,email);
+        values.put(Constants.C_ADDED_TIMESTAMP,addedTime);
+        values.put(Constants.C_UPDATE_TIMESTAMP,updatedTime);
+
+        //update Row.
+        db.update(Constants.TABLE_NAME,values,Constants.C_ID + " = ?",new String[]{id});
+
+        //close db
+        db.close();
 
     }
 

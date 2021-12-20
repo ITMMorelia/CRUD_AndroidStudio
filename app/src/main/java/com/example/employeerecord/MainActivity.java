@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,AddUpdateActivity.class);
+                intent.putExtra("isEditMode",false); //want to add data
                 startActivity(intent);
             }
         });
