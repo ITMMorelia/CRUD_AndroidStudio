@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -37,7 +40,7 @@ public class Record_Details extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle("Record Details");
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         //get record id from adapter through intent
@@ -66,16 +69,15 @@ public class Record_Details extends AppCompatActivity {
     private void showDetails() {
         //get record details
         //query to select data
-        String selectedQuery = "SELECT * FROM "+ Constants.TABLE_NAME + " WHERE " +Constants.C_ID + " =\"" + stringId+ "\"";
+        String selectedQuery = "SELECT * FROM "+ Constants.TABLE_NAME + " WHERE " + Constants.C_ID + " =\"" + stringId+ "\"";
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectedQuery,null);
 
         //keep checking in whole db for that record
         if (cursor.moveToFirst()){
             do {
                 //get data
-                String id = ""+cursor.getInt(cursor.getColumnIndexOrThrow(Constants.C_ID));
                 String name = ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_NAME));
                 String image = ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_IMAGE));
                 String bio = ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_BIO));
@@ -104,9 +106,12 @@ public class Record_Details extends AppCompatActivity {
                 dobTv.setText(dob);
                 timeAddedTv.setText(timeAdded);
                 timeUpdateTv.setText(timeUpdated);
-                profileIv.setImageURI(Uri.parse(image));
 
-
+                if(image.equals("null")){
+                    profileIv.setImageResource(R.drawable.ic_baseline_person_24);
+                }else {
+                    profileIv.setImageURI(Uri.parse(image));
+                }
             }while (cursor.moveToNext());
         }
 

@@ -9,4 +9,25 @@
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"/>
 
+    <item
+        android:id="@+id/sort"
+        android:title="Sort"
+        android:icon="@drawable/ic_baseline_sort_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/delete"
+        android:title="Delete"
+        android:icon="@drawable/ic_baseline_delete_sweep_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/backup"
+        android:title="BackUp"
+        app:showAsAction=""/>
+
+    <item
+        android:id="@+id/restore"
+        android:title="Restore"/>
+
 </menu>

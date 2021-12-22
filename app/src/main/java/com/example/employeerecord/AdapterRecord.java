@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordViewHolder>{
@@ -21,9 +23,13 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
     private Context context;
     private ArrayList<ModelRecord> recordList;
 
+    //database helper
+    private DbHelper dbHelper;
+
     public AdapterRecord(Context context, ArrayList<ModelRecord> recordList) {
         this.context = context;
         this.recordList = recordList;
+        dbHelper = new DbHelper(context);
     }
 
     @NonNull
@@ -54,7 +60,8 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
         holder.phoneTv.setText(phone);
         holder.emailTv.setText(email);
 
-        if(profileImage.isEmpty()){
+        //set image
+        if(profileImage.equals("null")){
             holder.profileIv.setImageResource(R.drawable.ic_baseline_person_24);
         }else {
             holder.profileIv.setImageURI(Uri.parse(profileImage));
@@ -108,6 +115,11 @@ public class AdapterRecord  extends RecyclerView.Adapter<AdapterRecord.MyRecordV
                     context.startActivity(intent);
                 }else if (which == 1) {
                     //delete is clicked
+                    dbHelper.deleteData(id);
+
+                    //refresh record by calling activity onResume method
+                    ((MainActivity)context).onResume();
+
                 }
 
             }

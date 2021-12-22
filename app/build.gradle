@@ -39,6 +39,8 @@ dependencies {
     //image crop dependency
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
 
-    //circuler ImageView
+    //circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -107,7 +107,6 @@ public class AddUpdateActivity extends AppCompatActivity {
             addedTime= intent.getStringExtra("ADDEDTIME");
             updatedTime = intent.getStringExtra("UPDATEDTIME");
             profileImage = intent.getStringExtra("IMAGE");
-            imageUri = Uri.parse(profileImage);
 
             //set data to view
             nameEt.setText(name);
@@ -116,7 +115,13 @@ public class AddUpdateActivity extends AppCompatActivity {
             bioEt.setText(bio);
             dobEt.setText(dob);
 
+            imageUri = Uri.parse(profileImage);
 
+            if(profileImage.equals("null")){
+                profileIv.setImageResource(R.drawable.ic_baseline_person_24);
+            }else {
+                profileIv.setImageURI(Uri.parse(profileImage));
+            }
 
             profileIv.setImageURI(imageUri);
 

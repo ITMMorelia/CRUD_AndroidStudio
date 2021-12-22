@@ -95,11 +95,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+
     //get all data from database
     public ArrayList<ModelRecord> getAllRecords(String orderBy){
         //orderBy query will allow to sort data
         //it will return list
-
         ArrayList<ModelRecord> recordList = new ArrayList<>();
         //query to select record
         String selectQuery = "SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY " +orderBy;
@@ -138,7 +138,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ArrayList<ModelRecord> recordList = new ArrayList<>();
         //query to select record
-        String selectQuery = "SELECT * FROM " + Constants.TABLE_NAME + " WHERE  " +Constants.C_NAME + " LIKE '%"+query+"'%";
+        String selectQuery = "SELECT * FROM " + Constants.TABLE_NAME + " WHERE  " +Constants.C_NAME + " LIKE '%"+query+"%'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
@@ -175,6 +175,21 @@ public class DbHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    //delete data by using id
+    public void deleteData(String id){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(Constants.TABLE_NAME,Constants.C_ID + " = ? ",new String[]{id});
+        db.close();
+    }
+
+    //delete all record
+    public void deleteAllRecord(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM "+Constants.TABLE_NAME);
+        db.close();
+
     }
 
 }
