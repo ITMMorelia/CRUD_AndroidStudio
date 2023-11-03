@@ -36,6 +36,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:paddingBottom="10dp"
+                    android:alpha="0"
                     android:text="The bio of user"
                     android:textColor="@color/black"/>
             </TableRow>
@@ -45,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
-                    android:text="Name"
+                    android:text="Nombre"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -54,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Jowel Ahmed"
+                    android:text="Dante Silva"
                     android:textColor="@color/black"/>
             </TableRow>
             <TableRow>
@@ -71,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="jowel@gmail.com"
+                    android:text="dante@exmaple.com"
                     android:textColor="@color/black"/>
             </TableRow>
 
@@ -80,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
-                    android:text="Phone"
+                    android:text="Telefono"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -89,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="901331383"
+                    android:text="1234567890"
                     android:textColor="@color/black"/>
             </TableRow>
             <TableRow>
@@ -97,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
-                    android:text="DOB"
+                    android:text="Cumpleaño"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -106,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="10/20/22"
+                    android:text="12/12/12"
                     android:textColor="@color/black"/>
             </TableRow>
             <TableRow>
@@ -117,12 +118,14 @@
                     android:text="Added Date"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:alpha="0"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/addedTimeTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:alpha="0"
                     android:text="2.20"
                     android:textColor="@color/black"/>
             </TableRow>
@@ -134,6 +137,7 @@
                     android:text="Updated Date"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:alpha="0"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/updatedTimeTv"
@@ -141,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="10/20/20"
+                    android:alpha="0"
                     android:textColor="@color/black"/>
             </TableRow>
         </TableLayout>

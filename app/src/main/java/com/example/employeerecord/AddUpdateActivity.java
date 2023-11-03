@@ -141,11 +141,13 @@ public class AddUpdateActivity extends AppCompatActivity {
             }
         });
 
-        //add note listener
+        //add note listener//////////////////////////////////////////////////////////////////////
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 inputData();
+                Intent intent = new Intent(AddUpdateActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
